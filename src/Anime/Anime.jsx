@@ -7,7 +7,7 @@ const Anime = () => {
   const { id } = params;
 
   const getAnime = async () => {
-    const { data } = await (await fetch(`https://api.jikan.moe/v4/anime/${id}`)).json();
+    const { data } = await (fetch(`https://api.jikan.moe/v4/anime/${id}`)).json();
     setAnime(data);
   };
 

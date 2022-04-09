@@ -9,7 +9,7 @@ const App = () => {
   const [animeList, setAnimeList] = React.useState();
 
   const getAnimeList = async () => {
-    const { data } = await (await fetch("https://api.jikan.moe/v4/anime")).json();
+    const { data } = await (fetch("https://api.jikan.moe/v4/anime")).json();
     setAnimeList(data);
   };
 
