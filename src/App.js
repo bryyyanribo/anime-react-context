@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import Anime from "./Anime/Anime";
+import AnimeList from "./Anime/AnimeList";
 
-function App() {
+export const AnimeContext = React.createContext();
+
+const App = () => {
+  const [animeList, setAnimeList] = React.useState();
+
+  const getAnimeList = async () => {
+    const { data } = await (await fetch("https://api.jikan.moe/v4/anime")).json();
+    setAnimeList(data);
+  };
+
+  useEffect(() => {
+    getAnimeList();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AnimeContext.Provider value={animeList}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<AnimeList value={animeList} />} />
+          <Route path="/anime/:id" element={<Anime />} />
+        </Routes>
+      </BrowserRouter>
+    </AnimeContext.Provider>
   );
-}
+};
 
 export default App;
